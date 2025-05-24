@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SLU Fish Pond Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./styles/styles.css" />
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <!--  <link rel="icon" type="image/png" href="https://i.ibb.co/gMFLSwjn/favicon.png"> -->
+  <script src="./js/lang.js" defer></script>
+</head>
+<body>
+  <div class="language-toggle">
+    <label class="switch">
+      <input type="checkbox" id="langToggle" onchange="toggleLanguage()" />
+      <span class="slider round"></span>
+    </label>
+    <span id="lang-label">EN</span>
+  </div>
+
+ <div class="container" id="login-screen">
+
+  <!-- Logo + Header -->
+ <div class="logo-section" style="margin-bottom: 20px;">
+  <h1 id="header-welcome" style="font-size: 18px; color: #00f6ff; text-align: center; margin: 0 0 10px 0;">
+    Welcome to SLU Smart Fish Pond
+  </h1>
+  <img src="images/slu-logo.png" alt="Logo" class="login-logo" style="display: block; width: 80px; height: 80px; border-radius: 50%; border: 2px solid #00f6ff; box-shadow: 0 0 8px rgba(0,246,255,0.4); margin: 0 auto;" />
+</div>
+
+
+  <!-- Login Form -->
+  <div class="login-box">
+    <h2 id="login-title">🔐 Pond Access</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="handleLogin()" id="login-button">Login</button>
+    <div id="login-error" class="error"></div>
+  </div>
+
+</div>
+
+
+
+  <script src="./js/hardcore.js"> </script>
+</body>
+</html>

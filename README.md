@@ -47,6 +47,6 @@ git clone https://github.com/A-Abbashdj/fishpond.git
 
 | Name                 | Role                         | Contact                                             |
 |----------------------|------------------------------|-----------------------------------------------------|
-| ** Ameer **          | ghost                        | [@ameer_x3m](https://instagram.com/ameer_x3m)       |
+| ** Ameer **          | ghost                        |      |
 | ** Muazu A. Muazu ** | front-end dev, web App       | [@Mmuazujr75](https://instagram.com/muazujr75)      |
 | ** Zuleiheart **     | Hardware Installer           | [+23470 656 5831](https://wa.me/+234706565831)      |

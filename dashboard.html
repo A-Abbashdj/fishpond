@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fishpond Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./styles/styles.css" />
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <script src="./js/lang.js" defer></script>
+  <style>
+    .pond-tile {
+      background-color: #263646;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 246, 255, 0.15);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .pond-tile:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 14px rgba(0, 246, 255, 0.25);
+    }
+
+    .pond-title {
+      font-size: 18px;
+      color: #00f6ff;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .pond-status,
+    .pond-updated {
+      text-align: center;
+      color: #ffffff;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .edit-icon {
+      cursor: pointer;
+      color: #00f6ff;
+      font-size: 14px;
+    }
+
+    .status-options {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 5px;
+    }
+
+    .status-button {
+      padding: 4px 8px;
+      font-size: 13px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .online {
+      background-color: #00f6ff;
+      color: #000;
+    }
+
+    .offline {
+      background-color: #ff4b4b;
+      color: #fff;
+    }
+
+    .section-header h1 {
+      font-size: 22px;
+      color: #00f6ff;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Language + Logout Row -->
+<div class="top-bar">
+  <div class="language-toggle">
+    <label class="switch">
+      <input type="checkbox" id="langToggle" onchange="toggleLanguage()" />
+      <span class="slider round"></span>
+    </label>
+    <span id="lang-label">EN</span>
+  </div>
+  <button class="logout-compact" onclick="logout()">🔓</button>
+</div>
+
+<!-- Title Section -->
+<div class="container">
+  <div class="section-header">
+    <h1>🌍 Choose Your Fish Pond</h1>
+  </div>
+</div>
+
+<!-- Pond List -->
+<div class="container" id="pond-list"></div>
+
+<script>
+  const ponds = [
+    'Jigawa Pond',
+    'Abia Pond',
+    'Niger Pond',
+    'Kaduna Pond',
+    'Zamfara Pond',
+    'Oyo Pond'
+  ];
+
+  const statuses = JSON.parse(localStorage.getItem('pondStatuses')) || {};
+
+  function getStatusIcon(state) {
+    return state === 'Online' ? '🟢' : '🔴';
+  }
+
+  function renderPonds() {
+    const list = document.getElementById('pond-list');
+    list.innerHTML = '';
+
+    ponds.forEach(name => {
+      const key = name.replace(' Pond', '');
+      const currentStatus = statuses[key] || 'Online';
+      const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      const tile = document.createElement('div');
+      tile.className = 'pond-tile';
+
+      tile.innerHTML = `
+        <div class="pond-title">${name}</div>
+        <div class="status-row" id="status-${key}">
+          <span>${getStatusIcon(currentStatus)} ${currentStatus}</span>
+          <span class="edit-icon" onclick="showOptions('${key}')">✏️</span>
+        </div>
+        <div class="status-options" id="options-${key}" style="display:none;">
+          <button class="status-button online" onclick="updateStatus('${key}', 'Online')">Online</button>
+          <button class="status-button offline" onclick="updateStatus('${key}', 'Offline')">Offline</button>
+        </div>
+        <div class="pond-updated">Updated: ${timestamp}</div>
+      `;
+
+      tile.onclick = (e) => {
+        // Prevent redirect if clicking on edit or options
+        if (!e.target.classList.contains('edit-icon') &&
+            !e.target.classList.contains('status-button')) {
+          enterPond(key);
+        }
+      };
+
+      list.appendChild(tile);
+    });
+  }
+
+  function showOptions(key) {
+    const box = document.getElementById(`options-${key}`);
+    box.style.display = box.style.display === 'none' ? 'flex' : 'none';
+  }
+
+  function updateStatus(key, value) {
+    statuses[key] = value;
+    localStorage.setItem('pondStatuses', JSON.stringify(statuses));
+    renderPonds();
+  }
+
+  function enterPond(pondKey) {
+    localStorage.setItem("activePond", pondKey);
+    window.location.href = "mobile.html";
+  }
+
+  renderPonds();
+
+   function logout() {
+    // Clear pond state (optional)
+    localStorage.removeItem("activePond");
+    // Redirect to login
+    window.location.href = "index.html";
+  }
+
+  function enterPond(pondName) {
+    localStorage.setItem("activePond", pondName);
+    window.location.href = "mobile.html";
+  }
+
+  renderPonds(); // Ensure pond rendering still runs
+</script>
+</body>
+</html>
